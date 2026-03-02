@@ -29,7 +29,7 @@ def get_accuracy_percent(accurate_jumps: int, total_jumps: int):
 		return 0
 	return int((accurate_jumps / total_jumps) * 100)
 
-def get_rank(accuracy):
+def get_rank(accuracy : int):
 	if accuracy >= 95: return "S"
 	if accuracy >= 85: return "A"
 	if accuracy >= 70: return "B"
@@ -38,10 +38,10 @@ def get_rank(accuracy):
 def play_ui_sound(audioManager: audio.AudioManager):
 	audioManager.play_sfx("ui_" + str(random.randint(1, 5)))
 
-def get_themed(asset, theme = DEFAULT_THEME.lower(), folder = SPRITES_DIR):
+def get_themed(asset : str, theme : str = DEFAULT_THEME.lower(), folder : str = SPRITES_DIR):
 	return os.path.join(folder, theme, asset)
 
-def load_parallax_layers(folder=os.path.join(SPRITES_DIR, DEFAULT_THEME.lower()), pattern="bg_*", max_value=0.60):
+def load_parallax_layers(folder : str = os.path.join(SPRITES_DIR, DEFAULT_THEME.lower()), pattern : str = "bg_*", max_value : float = 0.60):
 	files = sorted(
 		glob.glob(os.path.join(folder, pattern)),
 		key=lambda f: int(os.path.basename(f).split("_")[1].split(".")[0])
@@ -69,7 +69,7 @@ def _with_click_sfx(cb, audioManager: audio.AudioManager):
 		cb(btn)
 	return wrapper
 
-def _draw_rounded_image(surf, img, rect, radius=12):
+def _draw_rounded_image(surf : pygame.Surface, img, rect : pygame.Rect, radius=12):
 	mask = pygame.Surface((rect.w, rect.h), pygame.SRCALPHA)
 	pygame.draw.rect(mask, (255,255,255), mask.get_rect(), border_radius=radius)
 	img_scaled = pygame.transform.smoothscale(img, (rect.w, rect.h))

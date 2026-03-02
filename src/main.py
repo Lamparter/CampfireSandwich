@@ -236,7 +236,7 @@ class RhythmDodgerGame:
 
 	# game state
 
-	def set_state(self, new_state):
+	def set_state(self, new_state : str):
 		prev = self.state
 		self.state = new_state
 		# play return sound when going back to title
@@ -381,7 +381,7 @@ class RhythmDodgerGame:
 	
 	# game update
 
-	def update(self, dt, jump_pressed):
+	def update(self, dt : float, jump_pressed : bool):
 		# title screen update
 		if self.state == "title":
 			self.title_screen.update(dt)
@@ -617,7 +617,7 @@ class RhythmDodgerGame:
 		else:
 			pygame.draw.rect(surf, (40, 36, 32), pygame.Rect(0, GROUND_Y + TILE_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT - (GROUND_Y + TILE_SIZE))) # fallback
 		
-	def draw_beat_bar(self, surf):
+	def draw_beat_bar(self, surf : pygame.Surface):
 		"""
 		Cute beat bar:
 		- Rounded pastel pill background
@@ -683,7 +683,7 @@ class RhythmDodgerGame:
 			lbl = self.font_small.render(label, True, (120, 110, 100))
 			surf.blit(lbl, (x + bar_w - lbl.get_width(), y + bar_h + int(WINDOW_HEIGHT * 0.006)))
 
-	def draw_judgement(self, surf):
+	def draw_judgement(self, surf : pygame.Surface):
 		if self.judgement_timer > 0 and self.last_judgement:
 			surf_text = self.font_small.render(self.last_judgement, True, TEXT_COLOUR)
 			bar_width = self.beat_bar_w
@@ -696,7 +696,7 @@ class RhythmDodgerGame:
 			surf_text = self.font_small.render(self.last_judgement, True, colour)
 			surf.blit(surf_text, (x, y))
 
-	def draw_track_info(self, surf):
+	def draw_track_info(self, surf : pygame.Surface):
 		if not self.current_track:
 			return
 		
@@ -712,7 +712,7 @@ class RhythmDodgerGame:
 		y = max(bottom_tile_top - surf_text.get_height() - int(WINDOW_HEIGHT * 0.01), WINDOW_HEIGHT - surf_text.get_height() - margin)
 		surf.blit(surf_text, (x, y))
 
-	def draw_hud(self, surf):
+	def draw_hud(self, surf : pygame.Surface):
 		# mascot, scaled to match text height (left)
 		mascot_size = max(MASCOT_SIZE, int(self.font_small.get_height() * 1.2))
 		mascot_x = self.left_margin
