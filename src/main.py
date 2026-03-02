@@ -339,6 +339,8 @@ class RhythmDodgerGame:
 					# behave contextually: if playing -> pause; if title -> do nothing; if options -> back
 					if self.state == "playing" and not self.countin_active:
 						self.set_state("paused")
+					elif self.state == "playing" and self.countin_active:
+						self.set_state("title")
 					elif self.state == "paused":
 						self.set_state("playing")
 					elif self.state == "options":
