@@ -909,7 +909,7 @@ class RhythmDodgerGame:
 
 			remaining = max(0.0, self.countin_timer)
 			display_num = int(math.ceil(remaining)) if remaining > 0 else 0
-			if display_num == 0:
+			if display_num == 1:
 				text = "GO!"
 			else:
 				text = str(display_num)
