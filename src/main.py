@@ -73,7 +73,7 @@ class RhythmDodgerGame:
 		# mascot
 
 		self.mascot_sheet = sprites.SpriteSheet(helpers.get_themed(MASCOT, self.theme))
-		self.mascot = models.Mascot(self.mascot_sheet, self.font_small)
+		self.mascot = models.Mascot(self.mascot_sheet, self.font_small, self.theme)
 
 		# beat bar
 
@@ -674,7 +674,8 @@ class RhythmDodgerGame:
 
 		phase = self.beat_tracker.normalised_phase()
 		fill_w = int(bar_w * phase)
-		pygame.draw.rect(surf, BEAT_BAR_COLOUR, pygame.Rect(x, y, fill_w, bar_h), border_radius = 6)
+		colour = (82, 82, 82) if self.theme == "dinosaur" else BEAT_BAR_COLOUR
+		pygame.draw.rect(surf, colour, pygame.Rect(x, y, fill_w, bar_h), border_radius = 6)
 
 		# centre marker
 		cx = x + bar_w // 2

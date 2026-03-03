@@ -141,9 +141,10 @@ class Obstacle:
 		return self.x + self.width < 0
 
 class Mascot:
-	def __init__(self, sheet: sprites.SpriteSheet, font_small):
+	def __init__(self, sheet: sprites.SpriteSheet, font_small, theme):
 		# load native frames and scale to MASCOT_SIZE
-		native_frames = sheet.load_strip((0,0,NATIVE_MASCOT,NATIVE_MASCOT), 3)
+		sheet_count = 2 if theme == "dinosaur" else 3
+		native_frames = sheet.load_strip((0,0,NATIVE_MASCOT,NATIVE_MASCOT), sheet_count)
 		scaled = [pygame.transform.scale(f, (MASCOT_SIZE,MASCOT_SIZE)) for f in native_frames]
 		self.anim = sprites.AnimatedSprite(scaled, fps=3) # slower default fps so it doesn't animate too fast
 		self.x = int(WINDOW_WIDTH * 0.02)
@@ -610,7 +611,7 @@ class SettingsScreen:
 		self.settings.set(key, value)
 		# apply side effects
 		if key == "theme":
-			if value in ("Classic", "London", "Flagship"):
+			if value in ("Classic", "London", "Flagship", "Dinosaur"):
 				self.game.theme = str(value).lower()
 				self.game.restart_screen = "options"
 				self.game.restarting = True
