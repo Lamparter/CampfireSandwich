@@ -143,7 +143,7 @@ class RhythmDodgerGame:
 
 		# day/night
 
-		self.time_of_day = random.random()
+		self.time_of_day = self.time_raw = random.random()
 
 		# weather
 
@@ -573,8 +573,8 @@ class RhythmDodgerGame:
 			self.judgement_timer -= dt
 
 		# day/night
-		self.time_of_day += dt * 0.01
-		if self.time_of_day > 1.0: self.time_of_day -= 1.0
+		self.time_raw += dt * 0.05
+		self.time_of_day = 1.0 - abs((self.time_raw % 2.0) - 1.0)
 
 		# toggle rain occasionally
 		self.rain_timer -= dt
@@ -851,23 +851,25 @@ class RhythmDodgerGame:
 			pygame.display.flip()
 			return
 
+		if self.state == "playing":
+			print(f"[DEBUG] Time of day: {self.time_of_day}")
+
+		t = helpers.day_night_tint(self.time_of_day)
+		tint = (t, t, t)
+
 		# draw to scene surface for shake
 		scene = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-		scene.fill(BACKGROUND_COLOUR)
+		scene.fill((t, t, t))
 
 		# camera_dx: use obstacle speed as camera reference (pixels/sec)
 		camera_dx = OBSTACLE_SPEED
 
 		for layer in self.bg_layers:
+			alpha = (255 * ((1 - (t / 255)) ** 4)) if layer.night else None
 			layer.update(1.0 / FPS, camera_dx)
-			layer.draw(scene)
+			layer.draw(scene, alpha)
 
 		# day/night tint
-		def f(x):
-			return int(140 * ((x ** 2) / ((x ** 2) + ((1 - x) ** 2))))
-
-		t = abs(math.sin(self.time_of_day * math.pi * 2))
-		tint = (f(t), f(t), f(t))
 		overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
 		overlay.fill(tint)
 		overlay.set_alpha(50)

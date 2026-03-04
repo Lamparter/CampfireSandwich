@@ -308,7 +308,8 @@ class TitleScreen:
 
 		# draw background layers (static)
 		for layer in self.bg_layers:
-			layer.draw(surf)
+			if layer.night != True:
+				layer.draw(surf)
 
 		# dim background to focus UI
 		dim = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
@@ -766,16 +767,20 @@ class ParallaxLayer:
 		self.speed = speed
 		self.offset = 0.0
 		self.w = self.image.get_width()
-	
+		self.night = True if "night" in path else False
+
 	def update(self, dt, camera_dx):
 		# camera_dx is in pixels per second; multiply by dt for per-frame offset
 		self.offset = (self.offset + camera_dx * self.speed * dt) % self.w
 
-	def draw(self, surf):
+	def draw(self, surf : pygame.Surface, alpha : int = None):
+		img = self.image.copy()
+		if self.night:
+			img.set_alpha(alpha)
 		x = -int(self.offset)
-		surf.blit(self.image, (x, 0))
+		surf.blit(img, (x, 0))
 		if x + self.w < surf.get_width():
-			surf.blit(self.image, (x + self.w, 0))
+			surf.blit(img, (x + self.w, 0))
 
 class BeatTracker: # internal clock
 	def __init__(self, interval):

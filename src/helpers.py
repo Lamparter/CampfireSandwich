@@ -63,6 +63,12 @@ def load_parallax_layers(folder=os.path.join(SPRITES_DIR, DEFAULT_THEME.lower())
 
 	return layers
 
+def day_night_tint(phase: float, power: float = 6) -> int:
+	a = phase ** power
+	b = (1.0 - phase) ** power
+	y = 1 - (a / (a + b))
+	return int(255 * y)
+
 def _with_click_sfx(cb, audioManager: audio.AudioManager):
 	def wrapper(btn):
 		play_ui_sound(audioManager)
