@@ -85,9 +85,8 @@ class RhythmDodgerGame:
 		if os.path.exists(helpers.get_themed(HEARTBEAT, self.theme)):
 			try:
 				img = pygame.image.load(helpers.get_themed(HEARTBEAT, self.theme)).convert_alpha()
-				# scale icon to match UI scale (use small multiple of font height)
-				target = 48
-				self.beat_icon_img = pygame.transform.smoothscale(img, (target, target))
+				target = HEARTBEAT_SIZE
+				self.beat_icon_img = pygame.transform.scale(img, (target, target))
 			except Exception:
 				self.beat_icon_img = None
 		

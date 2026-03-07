@@ -24,6 +24,7 @@ NATIVE_TILE = 16
 NATIVE_PLAYER = 24
 NATIVE_MASCOT = 24
 NATIVE_OBS = 24
+NATIVE_BEAT = 48
 
 # Sprite scale factor (integer) derived from window height to keep pixel-art crisp
 
@@ -35,6 +36,7 @@ TILE_SIZE = NATIVE_TILE * SPRITE_SCALE
 PLAYER_W = PLAYER_H = NATIVE_PLAYER * SPRITE_SCALE * 1.5
 MASCOT_SIZE = NATIVE_MASCOT * SPRITE_SCALE
 OBS_W = OBS_H = NATIVE_OBS * SPRITE_SCALE * 1.5
+HEARTBEAT_SIZE = NATIVE_BEAT * (SPRITE_SCALE / 3)
 
 PLAYER_X = int(WINDOW_WIDTH * 0.12) # relative horizontal player position
 
