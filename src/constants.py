@@ -110,21 +110,21 @@ SFX = [
 # to adjust
 
 TRACKS = [
-	("AmericanBoy", "Estelle", "American Boy", 118, 16.3),
-	("BackToBlack", "Amy Winehouse", "Back to Black", 123, 16.22),
-	("CaliforniaGurls", "Katy Perry", "California Gurls", 125, 7.9),
-	("DJGotUsFallinInLove", "Usher", "DJ Got Us Fallin' In Love", 120, 8.14),
-	("GimmeGimmeGimme", "ABBA", "Gimme! Gimme! Gimme!", 120, 16.4),
-	("Golden", "HUNTR/X", "Golden", 123, 15.25),
-	("Illegal", "PinkPantheress", "Illegal", 141, 13.89),
-	("ItsRainingMen", "The Weather Girls", "It's Raining Men", 137, 15.5),
-	("MoneyMoneyMoney", "ABBA", "Money, Money, Money", 120, 8.62),
-	("MurderOnTheDancefloor", "Sophie Ellis-Bextor", "Murder On The Dancefloor", 117, 20.93),
-	("OnlySoMuchOilInTheGround", "Stefanie Heinzmann ", "Only So Much Oil In The Ground", 121, 15.3),
-	("PartyInTheUSA", "Miley Cyrus", "Party In The U.S.A.", 96, 9.5),
-	("Rasputin", "Boney M.", "Rasputin", 126, 12.3),
-	("ShizumeruMachi", "YOEKO", "Sinking Town", 125, 15.44),
-	("WhereIsMyHusband", "RAYE", "WHERE IS MY HUSBAND!", 116, 21.64), # approx
+	("AmericanBoy", "Estelle", "American Boy", 118, 16.28),
+	("BackToBlack", "Amy Winehouse", "Back to Black", 123, 16.08),
+	("CaliforniaGurls", "Katy Perry", "California Gurls", 125, 7.7),
+	("DJGotUsFallinInLove", "Usher", "DJ Got Us Fallin' In Love", 120, 8.02),
+	("GimmeGimmeGimme", "ABBA", "Gimme! Gimme! Gimme!", 120, 16.28),
+	("Golden", "HUNTR/X", "Golden", 123, 15.14),
+	("Illegal", "PinkPantheress", "Illegal", 141, 13.61),
+	("ItsRainingMen", "The Weather Girls", "It's Raining Men", 137, 14.44),
+	("MoneyMoneyMoney", "ABBA", "Money, Money, Money", 120, 8.06),
+	("MurderOnTheDancefloor", "Sophie Ellis-Bextor", "Murder On The Dancefloor", 117, 19.41),
+	("OnlySoMuchOilInTheGround", "Stefanie Heinzmann ", "Only So Much Oil In The Ground", 121, 15.18),
+	("PartyInTheUSA", "Miley Cyrus", "Party In The U.S.A.", 96, 9.31),
+	("Rasputin", "Boney M.", "Rasputin", 126, 11.38),
+	("ShizumeruMachi", "YOEKO", "Sinking Town", 125, 15.34),
+	("WhereIsMyHusband", "RAYE", "WHERE IS MY HUSBAND!", 116, 21.43), # approx
 ]
 
 # Colours
