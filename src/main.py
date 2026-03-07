@@ -367,8 +367,9 @@ class RhythmDodgerGame:
 			self.settings_screen.handle_input(events)
 		elif self.state == "playing":
 			for e in events:
-				if self.pause_button.handle_event(e):
-					continue
+				if self.countin_active == False:
+					if self.pause_button.handle_event(e):
+						continue
 		elif self.state == "paused":
 			for e in events:
 				if self.pause_resume_btn.handle_event(e):
@@ -782,9 +783,7 @@ class RhythmDodgerGame:
 		self.draw_track_info(surf)
 
 		# pause button
-		self.pause_button.draw(surf)
-
-		if self.pause_button:
+		if self.pause_button and self.countin_active == False:
 			self.pause_button.draw(surf)
 
 			r = self.pause_button.rect
