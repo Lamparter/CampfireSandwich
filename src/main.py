@@ -209,19 +209,19 @@ class RhythmDodgerGame:
 		go_btn_h = max(44, int(WINDOW_HEIGHT * 0.06))
 		go_x = WINDOW_WIDTH//2 - go_btn_w//2
 
-		self.gameover_title_btn = ui.Button(
-			(go_x, int(WINDOW_HEIGHT*0.6), go_btn_w, go_btn_h),
-			"Title Screen",
-			self.font_small,
-			lambda b: self.set_state("title"),
-			radius=8
-		)
-
 		self.gameover_again_btn = ui.Button(
-			(go_x, int(WINDOW_HEIGHT*0.6) + go_btn_h + 12, go_btn_w, go_btn_h),
+			(go_x, int(WINDOW_HEIGHT*0.6), go_btn_w, go_btn_h),
 			"Play Again",
 			self.font_small,
 			lambda b: self._play_again(),
+			radius=8
+		)
+
+		self.gameover_title_btn = ui.Button(
+			(go_x, int(WINDOW_HEIGHT*0.6) + go_btn_h + 12, go_btn_w, go_btn_h),
+			"Title Screen",
+			self.font_small,
+			lambda b: self.set_state("title"),
 			radius=8
 		)
 
@@ -252,8 +252,8 @@ class RhythmDodgerGame:
 				if self.idle:
 					self._play_again()
 				pygame.mixer.music.set_volume(0.12)
-				self.gameover_title_btn.focus = True
-				self.gameover_again_btn.focus = False
+				self.gameover_again_btn.focus = True
+				self.gameover_title_btn.focus = False
 			except: pass
 		if new_state == "playing" and prev != "playing":
 			self.title_screen.title_music_loaded = False
@@ -826,13 +826,13 @@ class RhythmDodgerGame:
 		start_x = WINDOW_WIDTH//2 - total_w//2
 		y = panel_y + int(panel_h * 0.77)
 
-		self.gameover_title_btn.rect.topleft = (start_x, y)
-		self.gameover_title_btn.rect.size = (btn_w, btn_h)
-		self.gameover_title_btn._render_text()
-
-		self.gameover_again_btn.rect.topleft = (start_x + btn_w + gap, y)
+		self.gameover_again_btn.rect.topleft = (start_x, y)
 		self.gameover_again_btn.rect.size = (btn_w, btn_h)
 		self.gameover_again_btn._render_text()
+
+		self.gameover_title_btn.rect.topleft = (start_x + btn_w + gap, y)
+		self.gameover_title_btn.rect.size = (btn_w, btn_h)
+		self.gameover_title_btn._render_text()
 
 		self.gameover_title_btn.draw(surf)
 		self.gameover_again_btn.draw(surf)
