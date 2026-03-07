@@ -256,12 +256,13 @@ class RhythmDodgerGame:
 				self.gameover_again_btn.focus = True
 				self.gameover_title_btn.focus = False
 
+				print()
 				print(f"[REPORT] Score: {self.score}")
 				print(f"[REPORT] Best score: {self.best_score}")
 				print(f"[REPORT] Max combo: {self.max_combo}")
 				print(f"[REPORT] Beat accuracy: {helpers.get_accuracy_percent(self.accurate_jumps, self.total_jumps)}%")
 				print(f"[REPORT] Rank: {helpers.get_rank(helpers.get_accuracy_percent(self.accurate_jumps, self.total_jumps))}")
-				print("\n")
+				print()
 			except: pass
 		if new_state == "playing" and prev != "playing":
 			self.title_screen.title_music_loaded = False
@@ -454,10 +455,11 @@ class RhythmDodgerGame:
 
 
 		if beat_triggered:
+			print()
 			print(f"[DEBUG] Time of day: {self.time_of_day}")
 			print(f"[DEBUG] Absolute time in game: {absolute_time}")
 			print(f"[DEBUG] Beats until next obstacle: {self.beats_until_next_obstacle}")
-			print("\n")
+			print()
 
 			if self._suspend_obstacles == False:
 				if self.beat_sound:
