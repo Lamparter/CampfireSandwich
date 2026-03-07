@@ -440,11 +440,18 @@ class RhythmDodgerGame:
 			absolute_time = (pygame.time.get_ticks() / 1000.0) - self.music_start_time
 			# keep absolute_time positive
 			if absolute_time < 0: absolute_time = 0.0
-			print(f"[DEBUG] Absolute time in game: {absolute_time}")
 
 		# update beat tracker with absolute time if available
 		beat_triggered = self.beat_tracker.update(dt, absolute_time)
+
+
+
 		if beat_triggered:
+			print(f"[DEBUG] Time of day: {self.time_of_day}")
+			print(f"[DEBUG] Absolute time in game: {absolute_time}")
+			print(f"[DEBUG] Beats until next obstacle: {self.beats_until_next_obstacle}")
+			print("\n")
+
 			if self._suspend_obstacles == False:
 				if self.beat_sound:
 					self.audio.play_sfx("ui_1", 1)
@@ -858,9 +865,6 @@ class RhythmDodgerGame:
 			self.song_select.draw()
 			pygame.display.flip()
 			return
-
-		if self.state == "playing":
-			print(f"[DEBUG] Time of day: {self.time_of_day}")
 
 		t = helpers.day_night_tint(self.time_of_day)
 		tint = (t, t, t)
