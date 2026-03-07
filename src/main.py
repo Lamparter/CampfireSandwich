@@ -597,7 +597,7 @@ class RhythmDodgerGame:
 			self.judgement_timer -= dt
 
 		# day/night
-		self.time_raw += dt * 0.05
+		self.time_raw += dt * 0.03
 		self.time_of_day = 1.0 - abs((self.time_raw % 2.0) - 1.0)
 
 		# toggle rain occasionally
