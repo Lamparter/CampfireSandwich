@@ -5,7 +5,7 @@
 > There is no guarantee for support or continued development after this date.
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/Lamparter/CampfireSandwich/main/sprites/title_logo.png" alt="Campfire Sandwich Logo" width="240">
+  <img src="https://raw.githubusercontent.com/Lamparter/CampfireSandwich/main/sprites/title_logo.png" alt="Campfire Sandwich Logo" width="340">
 </p>
 <h4>A nostalgic, fast-paced endless-scroller rhythm game built with Python & Pygame.</h4>
 
@@ -20,6 +20,17 @@ This game was initially created for **Hackclub's [Campfire Flagship](https://fla
 ---
 
 ## Playing the game
+
+<p align="left">
+    <!--<a href="">
+      <img src="https://github.com/Rise-Software/Rise-Media-Player/assets/74561130/3d7edcaf-26d8-4453-a751-29b851721abd" alt="Get it from Microsoft" />
+    </a>-->
+    <a href="https://github.com/Lamparter/CampfireSandwich/releases/latest">
+      <img src="https://github.com/Rise-Software/Rise-Media-Player/assets/74561130/60deb402-0c8e-4579-80e6-69cb7b19cd43" alt="Get it from GitHub" />
+    </a>
+</p>
+
+> If you'd like to learn more about previous versions of Campfire Sandwich, look no further than the [demo document](https://gist.github.com/Lamparter/f8bbbeb5fe32a89783621a7a018a0d20) I created for the Hackclub review team :)
 
 ### Building from source
 
@@ -55,11 +66,11 @@ python src/main.py
 After opening the game for the first time, **press 'Start'** to enter the song selection screen.
 You should then see a menu like this:
 
-<img width="640" height="360" alt="image" src="https://github.com/user-attachments/assets/15aef1ce-271c-4e42-babf-3305aaae1631" />
+<img width="640" height="360" alt="Screenshot of song selection screen" src="https://github.com/user-attachments/assets/15aef1ce-271c-4e42-babf-3305aaae1631" />
 
 You can then **choose a song** using either the mouse or keyboard, for example *California Gurls* by *Katy Perry*.
 
-<img width="640" height="360" alt="image" src="https://github.com/user-attachments/assets/2335d5e7-944d-43d3-9de7-48aab348122d" />
+<img width="640" height="360" alt="Screenshot of game in action" src="https://github.com/user-attachments/assets/2335d5e7-944d-43d3-9de7-48aab348122d" />
 
 You will then enter the endless runner game, where you need to **avoid obstacles that run towards the player** sprite (in this case, cacti, because this is the Chrome Dinosaur game theme) by jumping to dodge them.
 There may also be a count-in timer on the screen; this will count you into the song so you can prepare yourself to play and enjoy the song at the same time.
@@ -127,23 +138,23 @@ Most of the controls from Campfire Sandwich's built-in UI library can be found i
 These controls include:
 - `Button`: a flexible button control
 
-  <img width="240" height="126" alt="image" src="https://github.com/user-attachments/assets/5e31c320-2649-4cf5-88d1-3766cec902ff" />
+  <img width="240" height="126" alt="Button control demo screenshot" src="https://github.com/user-attachments/assets/5e31c320-2649-4cf5-88d1-3766cec902ff" />
 
 - `ToggleSwitch`: a toggle control that allows switching between "YES" and "NO" enumeration state
 
-  <img width="113" height="70" alt="image" src="https://github.com/user-attachments/assets/05397d25-ab76-424c-9b9b-e9db4b2589ac" />
+  <img width="113" height="70" alt="Toggle switch control demo screenshot" src="https://github.com/user-attachments/assets/05397d25-ab76-424c-9b9b-e9db4b2589ac" />
 
 - `Slider`: a slider control that allows choosing a value within a selected range
 
-  <img width="260" height="53" alt="image" src="https://github.com/user-attachments/assets/2045fa1d-cef0-446d-94fb-dd9a736b9e6b" />
+  <img width="260" height="53" alt="Slider control demo screenshot" src="https://github.com/user-attachments/assets/2045fa1d-cef0-446d-94fb-dd9a736b9e6b" />
 
 - `TextInput`: a dynamic text input control with full Unicode integration
 
-  <img width="253" height="112" alt="image" src="https://github.com/user-attachments/assets/02710edf-f08e-4621-b3e4-e3f5c6d82c7c" />
+  <img width="253" height="112" alt="Text input control demo screenshot" src="https://github.com/user-attachments/assets/02710edf-f08e-4621-b3e4-e3f5c6d82c7c" />
 
 - `TileLayout`: a horizontally stacked layout (used in the settings screen) that allows encapsulating controls
 
-  <img width="288" height="73" alt="image" src="https://github.com/user-attachments/assets/2bf00fc0-f3f5-4088-b73a-507cf6be7c41" />
+  <img width="288" height="73" alt="Tile layout control demo screenshot" src="https://github.com/user-attachments/assets/2bf00fc0-f3f5-4088-b73a-507cf6be7c41" />
 
 - `ParallaxLayout`: an image view that overlays multiple images on top of eachother and applies a parallax scrolling effect
 - `Panel`: a smart content dialogue, used to present the pause and game-over overlays, as well as the settings screen
