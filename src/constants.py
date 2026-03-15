@@ -2,7 +2,7 @@
 Configuration/constants
 """
 
-import os
+import os, sys
 
 NAME = "Campfire Sandwich"
 
@@ -77,13 +77,21 @@ MUSIC_LATENCY = -0.4
 
 # Assets
 
-ASSET_DIR = ""
+if getattr(sys, "frozen", False):
+	# bundled assets are unpacked/located under _MEIPASS
+	ASSET_DIR = getattr(sys, "_MEIPASS", os.path.dirname(sys.executable))
+	APP_DIR = os.path.dirname(sys.executable)
+else:
+	# project root is one level above src/
+	APP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+	ASSET_DIR = APP_DIR
+
 FONTS_DIR = os.path.join(ASSET_DIR, "fonts")
 MUSIC_DIR = os.path.join(ASSET_DIR, "music")
 SFX_DIR = os.path.join(ASSET_DIR, "sfx")
 SPRITES_DIR = os.path.join(ASSET_DIR, "sprites")
 ART_DIR = os.path.join(ASSET_DIR, "art")
-DATA_DIR = "build"
+DATA_DIR = os.path.join(APP_DIR, "_internal")
 
 FONT_NAME = "PixelifySans"
 FONT_PATH = os.path.join(FONTS_DIR, FONT_NAME, f"{FONT_NAME}.ttf")

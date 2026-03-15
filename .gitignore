@@ -1,6 +1,7 @@
 # Custom files
 
 *.xmp
+_internal/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

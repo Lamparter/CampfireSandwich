@@ -669,7 +669,8 @@ class CampfireSandwich:
 			self.rain_timer = random.uniform(8.0, 20.0)
 			self.raining = random.random() < 0.25
 			if self.raining:
-				self.particles.emit_rain(constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT(), count = 60)
+				pass
+				#self.particles.emit_rain(constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT(), count = 60)
 		
 		# advance beat icon animation
 
@@ -979,10 +980,10 @@ class CampfireSandwich:
 		self.particles.draw(scene)
 
 		# subtle rain overlay
-		if self.raining:
-			rain_overlay = pygame.Surface((constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT()), pygame.SRCALPHA)
-			rain_overlay.fill((180, 200, 230, 20))
-			scene.blit(rain_overlay, (0, 0))
+		#if self.raining:
+		#	rain_overlay = pygame.Surface((constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT()), pygame.SRCALPHA)
+		#	rain_overlay.fill((180, 200, 230, 20))
+		#	scene.blit(rain_overlay, (0, 0))
 		
 		# HUD (incl. mascot)
 		self.draw_hud(scene)
