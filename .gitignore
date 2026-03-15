@@ -1,3 +1,7 @@
+# Custom files
+
+*.xmp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

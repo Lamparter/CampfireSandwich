@@ -88,7 +88,7 @@ DATA_DIR = "build"
 FONT_NAME = "PixelifySans"
 FONT_PATH = os.path.join(FONTS_DIR, FONT_NAME, f"{FONT_NAME}.ttf")
 
-DEFAULT_THEME = "Classic"
+DEFAULT_THEME = "Dinosaur"
 
 PLAYER = "player_24x24.png"
 TILESET = "tileset_16x16.png"
@@ -97,6 +97,7 @@ MASCOT = "mascot_24x24.png"
 HEARTBEAT = "heartbeat_48x48.png"
 
 TITLE_LOGO = os.path.join(SPRITES_DIR, "title_logo.png")
+APP_LOGO = os.path.join(SPRITES_DIR, "app_logo.png")
 TITLE_MUSIC = os.path.join(SFX_DIR, "title_theme.wav")
 
 SFX = [
@@ -127,15 +128,20 @@ TRACKS = [
 	("AmericanBoy", "Estelle", "American Boy", 118, 16.28),
 	("BackToBlack", "Amy Winehouse", "Back to Black", 123, 16.08),
 	("CaliforniaGurls", "Katy Perry", "California Gurls", 125, 7.7),
+	("CallMeMaybe", "Carly Rae Jepsen", "Call Me Maybe", 120, 4.01),
 	("DJGotUsFallinInLove", "Usher", "DJ Got Us Fallin' In Love", 120, 8.02),
 	("GimmeGimmeGimme", "ABBA", "Gimme! Gimme! Gimme!", 120, 16.28),
 	("Golden", "HUNTR/X", "Golden", 123, 15.14),
+	("HotToGo", "Chappel Roan", "HOT TO GO!", 140, 3.53),
 	("Illegal", "PinkPantheress", "Illegal", 141, 13.61),
 	("ItsRainingMen", "The Weather Girls", "It's Raining Men", 137, 14.44),
+	("LastFridayNight", "Katy Perry", "Last Friday Night", 126, 7.15),
+	("Manchild", "Sabrina Carpenter", "Manchild", 123, 2.99),
 	("MoneyMoneyMoney", "ABBA", "Money, Money, Money", 120, 8.06),
 	("MurderOnTheDancefloor", "Sophie Ellis-Bextor", "Murder On The Dancefloor", 117, 19.41),
 	("OnlySoMuchOilInTheGround", "Stefanie Heinzmann ", "Only So Much Oil In The Ground", 121, 15.18),
 	("PartyInTheUSA", "Miley Cyrus", "Party In The U.S.A.", 96, 9.31),
+	("PinkPonyClub", "Chappel Roan", "Pink Pony Club", 107, 9.26),
 	("Rasputin", "Boney M.", "Rasputin", 126, 11.38),
 	("ShizumeruMachi", "YOEKO", "Sinking Town", 125, 15.34),
 	("WhereIsMyHusband", "RAYE", "WHERE IS MY HUSBAND!", 116, 21.43), # approx

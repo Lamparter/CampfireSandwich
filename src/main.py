@@ -8,6 +8,7 @@ import helpers, models, sprites, particles, audio, ui, settings, constants
 class CampfireSandwich:
 	def __init__(self):
 		pygame.init()
+		pygame.display.set_icon(pygame.image.load(constants.APP_LOGO))
 		self.screen = pygame.display.set_mode((constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT()), pygame.RESIZABLE)
 		pygame.display.set_caption(constants.NAME)
 		self.clock = pygame.time.Clock()
@@ -111,7 +112,9 @@ class CampfireSandwich:
 		self.beat_tracker = models.BeatTracker(60.0 / constants.DEFAULT_BPM)
 		self.music_started = False
 		self.music_start_time = 0.0
+		self.pause_time_ticks = None
 		self.beats_until_next_obstacle = helpers.space_obstacle()
+		self.idle_jump_target_beat = None
 
 		# game state
 
@@ -267,8 +270,8 @@ class CampfireSandwich:
 					self._play_again()
 					return
 				pygame.mixer.music.set_volume(0.12)
-				self.gameover_again_btn.focus = True
-				self.gameover_title_btn.focus = False
+				#self.gameover_again_btn.focus = True
+				#self.gameover_title_btn.focus = False
 			except: pass
 		if new_state == "playing" and prev != "playing":
 			self.screen = pygame.display.set_mode((constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT()))
@@ -285,9 +288,8 @@ class CampfireSandwich:
 				self.pause_time_ticks = pygame.time.get_ticks()
 			except: pass
 		if new_state == "playing" and prev == "paused":
-			if self.pause_time_ticks:
-				elapsed_ms = pygame.time.get_ticks() - self.pause_time_ticks
-				self.music_start_time += elapsed_ms / 1000.0
+			# keep game in sync with mixer
+			self.pause_time_ticks = None
 	
 	def toggle_pause(self):
 		if self.state == "playing":
@@ -315,6 +317,7 @@ class CampfireSandwich:
 		self.countin_active = False
 		self.countin_timer = 0.0
 		self.player_invulnerable_time = 0.6
+		self.idle_jump_target_beat = None
 
 		self.audio.load_music(track["path"] + ".ogg")
 		self.audio.play_music(-1)
@@ -343,6 +346,23 @@ class CampfireSandwich:
 		path, artist, name, bpm, intro = random.choice(self.available_tracks)
 		self.current_track = {"path": path, "artist": artist, "name": name, "bpm": bpm, "intro": intro}
 		self.start_track(self.current_track)
+
+	def _idle_jump_target_beats(self):
+		interval = max(0.0001, float(self.beat_tracker.interval))
+		spawn_x = constants.WINDOW_WIDTH() + int(constants.WINDOW_WIDTH() * 0.05)
+		travel_px = max(0.0, float(spawn_x - constants.PLAYER_X()))
+		speed_px_s = max(1.0, float(constants.OBSTACLE_SPEED()))
+		travel_seconds = travel_px / speed_px_s
+
+		# quantise to whole beats
+		delay_seconds = max(0.0, travel_seconds - interval)
+		delay_beats = delay_seconds / interval
+
+		# snap to the next beat to keep idle jumps from firing too soon (between 1280*720 and 2560*1440)
+		if constants.SPRITE_SCALE() > 3:
+			return max(0, int(math.ceil(delay_beats - 1e-9)))
+
+		return max(0, int(round(delay_beats)))
 
 	# input handling
 
@@ -378,8 +398,8 @@ class CampfireSandwich:
 				#else:
 				#	coord = (w_from_h, event.h)
 
-				constants.window_width___internal = max(1280, event.w)
-				constants.window_height___internal = max(720, event.h)
+				constants.window_width___internal = min(max(1280, event.w), 2560)
+				constants.window_height___internal = min(max(720, event.h), 1440)
 
 				self.restart_screen = self.state
 				self.restarting = True
@@ -472,9 +492,16 @@ class CampfireSandwich:
 		# compute absolute time if music started
 		absolute_time = None
 		if self.music_started and self.current_track:
-			absolute_time = (pygame.time.get_ticks() / 1000.0) - self.music_start_time
+			# use mixer clock (multithreaded) for accuracy
+			# https://github.com/Lamparter/CampfireSandwich/issues/33
+			pos_ms = pygame.mixer.music.get_pos()
+			if pos_ms is not None and pos_ms >= 0:
+				absolute_time = (pos_ms / 1000.0) - self.music_latency
+			else:
+				absolute_time = (pygame.time.get_ticks() / 1000.0) - self.music_start_time
 			# keep absolute_time positive
-			if absolute_time < 0: absolute_time = 0.0
+			if absolute_time < 0:
+				absolute_time = 0.0
 
 		# update beat tracker with absolute time if available
 		beat_triggered = self.beat_tracker.update(dt, absolute_time)
@@ -495,15 +522,26 @@ class CampfireSandwich:
 					spawn_x = constants.WINDOW_WIDTH() + int(constants.WINDOW_WIDTH() * 0.05)
 					sprite = random.choice(self.obstacle_sprites)
 					self.obstacles.append(models.Obstacle(spawn_x, sprite))
+					if self.idle:
+						delay_beats = self._idle_jump_target_beats()
+						self.idle_jump_target_beat = self.beat_tracker.beat_count + delay_beats
 
 				if (self.beats_until_next_obstacle > -1):
 					# count down until next obstacle
 					self.beats_until_next_obstacle -= 1
 				else:
-					if self.idle:
-						jump_pressed = True
-					# reset spacing
+					# reset spacing immediately only in non-idle mode
+					if not self.idle:
+						self.beats_until_next_obstacle = helpers.space_obstacle()
+
+			# beat-locked trigger
+			if self.idle and self.idle_jump_target_beat is not None:
+				if self.beat_tracker.beat_count >= self.idle_jump_target_beat:
+					jump_pressed = True
+					self.idle_jump_target_beat = None
 					self.beats_until_next_obstacle = helpers.space_obstacle()
+			elif not self.idle:
+				self.idle_jump_target_beat = None
 
 			# cute beat bar reactions
 
@@ -575,7 +613,7 @@ class CampfireSandwich:
 
 				# ensure obstacle has a mask
 				obs_mask = getattr(obs, "mask", None)
-				if obs_mask is None:
+				if obs_mask is None and self.idle is False:
 					# fallback: treat as rect collision if no mask
 					self.set_state("gameover")
 					self.best_score = max(self.best_score, self.score)
@@ -588,7 +626,7 @@ class CampfireSandwich:
 				offset_y = int(obs.rect.y - player_rect.y)
 
 				# if either mask is missing, skip
-				if player_mask is None:
+				if player_mask is None and self.idle is False:
 					# fallback to rect collision
 					self.set_state("gameover")
 					self.best_score = max(self.best_score, self.score)
@@ -598,7 +636,7 @@ class CampfireSandwich:
 
 				# check overlap: returns point or None
 				overlap_point = player_mask.overlap(obs_mask, (offset_x, offset_y))
-				if overlap_point:
+				if overlap_point and self.idle is False:
 					# pixel-perfect collision detected
 					self.set_state("gameover")
 					self.best_score = max(self.best_score, self.score)
@@ -1032,6 +1070,7 @@ class CampfireSandwich:
 		self.total_jumps = 0
 		self.accurate_jumps = 0
 		self.beats_until_next_obstacle = helpers.space_obstacle()
+		self.idle_jump_target_beat = None
 
 		# restart music
 		if self.current_track:

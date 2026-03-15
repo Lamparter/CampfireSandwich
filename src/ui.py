@@ -81,6 +81,7 @@ class Button:
 			if event.key in (pygame.K_RETURN, pygame.K_SPACE):
 				self._click()
 				return True
+		return False
 	
 	def _click(self):
 		if callable(self.on_click):

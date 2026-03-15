@@ -198,6 +198,7 @@ class TitleScreen:
 		# UI buttons
 		self.menu_buttons = []
 		self._create_menu_buttons()
+		self._last_layout_size = (constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT())
 
 		self.press_text_y = lambda: int(constants.WINDOW_HEIGHT() * 0.88)
 
@@ -223,6 +224,7 @@ class TitleScreen:
 				self.title_music_loaded = False
 	
 	def _create_menu_buttons(self):
+		focused_id = next((b.id for b in self.menu_buttons if b.focus), None)
 		# compute size and positions
 		btn_w = lambda: int(constants.WINDOW_WIDTH() * 0.28)
 		btn_h = lambda: max(48, int(constants.WINDOW_HEIGHT() * 0.07))
@@ -232,13 +234,23 @@ class TitleScreen:
 
 		def make_btn(text, idx, cb):
 			rect = (centre_x() - btn_w() // 2, base_y() + idx * spacing(), btn_w(), btn_h())
-			b = ui.Button(rect, text, self.font_large(), cb)
+			b = ui.Button(rect, text, self.font_large(), cb, id=text.lower())
 			return b
 		
 		self.menu_buttons.clear()
 		self.menu_buttons.append(make_btn("Start", 0, helpers._with_click_sfx(lambda b: self.open_song_select(), self.game.audio)))
 		self.menu_buttons.append(make_btn("Settings", 1, helpers._with_click_sfx(lambda b: self.game.set_state("options"), self.game.audio)))
 		self.menu_buttons.append(make_btn("Quit", 2, lambda b: setattr(self.game, "running", False)))
+
+		if focused_id:
+			for b in self.menu_buttons:
+				b.focus = (b.id == focused_id)
+		elif self.menu_buttons:
+			self.menu_buttons[0].focus = True
+
+		mouse_pos = pygame.mouse.get_pos()
+		for b in self.menu_buttons:
+			b.hover = b.rect.collidepoint(mouse_pos)
 	
 	def open_song_select(self):
 		self.game.set_state("song_select")
@@ -263,9 +275,11 @@ class TitleScreen:
 
 	def handle_input(self, events):
 		for e in events:
-			for b in self.menu_buttons:
-				if b.handle_event(e):
-					return
+			if e.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN):
+				for b in self.menu_buttons:
+					if b.handle_event(e) and e.type == pygame.MOUSEBUTTONDOWN:
+						for x in self.menu_buttons:
+							x.focus = (x is b)
 
 		for e in events:
 			if e.type == pygame.KEYDOWN:
@@ -277,12 +291,7 @@ class TitleScreen:
 					focused = next((b for b in self.menu_buttons if b.focus), None)
 					if focused:
 						focused._click()
-				elif e.key == pygame.K_q:
-					pass
-			elif e.type == pygame.MOUSEMOTION:
-				# update hover states so buttons show hover visuals
-				for b in self.menu_buttons:
-					b.hover = b.rect.collidepoint(e.pos)
+						break
 	
 	def update(self, dt):
 		# pulse animation
@@ -301,7 +310,11 @@ class TitleScreen:
 			self.particles.emit(x(),y(), count=4, colour=(255,240,200))
 		self.particles.update(dt)
 		self.mascot.update(dt)
-		self._create_menu_buttons()
+
+		current_size = (constants.WINDOW_WIDTH(), constants.WINDOW_HEIGHT())
+		if current_size != self._last_layout_size:
+			self._create_menu_buttons()
+			self._last_layout_size = current_size
 
 	def draw(self):
 		surf = self.screen
@@ -575,7 +588,7 @@ class SettingsScreen:
 			("debug", "Debug UI", "Show debug overlay and FPS", "toggle", {}),
 			("music_latency", "Music Latency", "Adjust audio timing (seconds)", "slider", {"min": -1.0, "max": 1.0, "step": 0.01}),
 			("master_volume", "Master Volume", "Overall music volume", "slider", {"min": 0.0, "max": 1.0, "step": 0.01}),
-			("idle", "Idle Player Mode", "Play the game automatically", "toggle", {}),
+			("idle", "Idle Player Mode", "Play the game automatically (experimental)", "toggle", {}),
 			("intro", "Song Intro", "Count in to the song's main melody", "toggle", {})
 		]
 
