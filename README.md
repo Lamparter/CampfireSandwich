@@ -5,7 +5,7 @@
 > There is no guarantee for support or continued development after this date.
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/Lamparter/CampfireSandwich/main/sprites/title_logo.png" alt="Campfire Sandwich Logo" width="340">
+  <img src="https://raw.githubusercontent.com/Lamparter/CampfireSandwich/main/sprites/title_logo.png" alt="Campfire Sandwich Logo" width="340" />
 </p>
 <h4>A nostalgic, fast-paced endless-scroller rhythm game built with Python & Pygame.</h4>
 
